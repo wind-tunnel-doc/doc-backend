@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/doc-api/doc-api-system/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-api/doc-api-system/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-auth/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-auth/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-common/doc-common-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-common/doc-common-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-common/doc-common-datasource/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-common/doc-common-datasource/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-common/doc-common-log/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-common/doc-common-log/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-common/doc-common-redis/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-common/doc-common-redis/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-common/doc-common-security/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-common/doc-common-security/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-common/doc-common-swagger/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-common/doc-common-swagger/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-modules/doc-file/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-modules/doc-file/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-modules/doc-system/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-modules/doc-system/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-modules/doc-websocket/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-modules/doc-websocket/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-modules/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc-modules/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

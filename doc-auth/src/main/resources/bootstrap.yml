@@ -1,0 +1,58 @@
+# Tomcat
+server: 
+  port: 9100
+
+# Spring
+spring:
+  application:
+    # 应用名称
+    name: doc-auth
+  profiles:
+    # 环境配置
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: ${doc.nacos.server-addr}
+      config:
+        username: nacos
+        password: nacos
+        # 配置中心地址
+        server-addr: ${doc.nacos.server-addr}
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+  # qq邮件配置
+  mail:
+    # 邮件服务器地址
+    host: smtp.qq.com
+    # 邮箱地址
+    username: 3487865496@qq.com
+    # 授权码
+    password: vfydbdkxocgkdajg
+    # 编码格式
+    default-encoding: utf-8
+    # 协议
+    protocol: smtp
+    port: 465
+    properties:
+      mail:
+        # 这里debug设置为true的话会打印出详细的发送邮件过程中的日志
+#        debug: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+
+# 登录类型
+login:
+  type:
+    account: accountLogin
+    email: emailLogin

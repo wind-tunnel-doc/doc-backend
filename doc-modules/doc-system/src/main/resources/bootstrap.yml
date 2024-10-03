@@ -1,0 +1,37 @@
+# Tomcat
+server:
+  port: 9204
+
+# Spring
+spring: 
+  application:
+    # 应用名称
+    name: doc-system
+  profiles:
+    # 环境配置
+    active: dev
+#  main:
+#    #允许存在多个Feign调用相同Service的接口
+#    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: ${doc.nacos.server-addr}
+      config:
+        # 配置中心地址
+        server-addr: ${doc.nacos.server-addr}
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
+# mybatis配置
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: com.doc.system
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
