@@ -1,0 +1,176 @@
+version: '3'
+services:
+  doc-mysql:
+    container_name: doc-mysql
+    image: mysql:8.0.33
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./sql/database-init.sh:/docker-entrypoint-initdb.d/database-init.sh
+      - ./sql:/sql-init
+    command:
+      [
+        'mysqld',
+        '--innodb-buffer-pool-size=80M',
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_unicode_ci',
+        '--default-time-zone=+8:00',
+        '--lower-case-table-names=1'
+      ]
+    ports:
+      - "3306:3306"
+
+  doc-nacos:
+    container_name: doc-nacos
+    image: nacos/nacos-server:v2.2.0
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      MODE: standalone
+      SPRING_DATASOURCE_PLATFORM: mysql
+      MYSQL_SERVICE_HOST: db
+      MYSQL_SERVICE_PORT: 3306
+      MYSQL_SERVICE_USER: root
+      MYSQL_SERVICE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_SERVICE_DB_NAME: doc_nacos_config
+      MYSQL_SERVICE_DB_PARAM: characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+      NACOS_AUTH_TOKEN: SecretKey012345678901234567890123456789012345678901234567890123456789
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "9849:9849"
+    volumes:
+      - ./logs/nacos:/home/nacos/logs
+    depends_on:
+      - doc-mysql
+
+  doc-redis:
+    container_name: doc-redis
+    image: redis:7.2.4
+    restart: always
+    ports:
+      - "6379:6379"
+
+  doc-gateway:
+    container_name: doc-gateway
+    image: openjdk:17-jdk
+    environment:
+      NACOS_SERVERS: doc-nacos:8848
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./doc-gateway/target/doc-gateway.jar:/app/doc-gateway.jar
+      - ./conf/spring:/app/config
+    command:
+      [
+        "java",
+        "-jar",
+        "/app/doc-gateway.jar"
+      ]
+    depends_on:
+      - doc-redis
+
+  doc-auth:
+    container_name: doc-auth
+    image: openjdk:17-jdk
+    environment:
+      NACOS_SERVERS: doc-nacos:8848
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./doc-auth/target/doc-auth.jar:/app/doc-auth.jar
+      - ./conf/spring:/app/config
+    command:
+      [
+        "java",
+        "-jar",
+        "/app/doc-auth.jar"
+      ]
+    depends_on:
+      - doc-nacos
+      - doc-redis
+
+  doc-file:
+    container_name: doc-file
+    image: openjdk:17-jdk
+    environment:
+      NACOS_SERVERS: doc-nacos:8848
+    volumes:
+      - ./doc-modules/doc-file/target/doc-file.jar:/app/doc-file.jar
+      - ./.uploadPath:/app/uploadPath
+      - ./conf/spring:/app/config
+    command:
+      [
+        "java",
+        "-jar",
+        "/app/doc-file.jar"
+      ]
+    ports:
+      - "9201:9201"
+    depends_on:
+      - doc-nacos
+
+#  doc-job:
+#    container_name: doc-job
+#    image: openjdk:17-jdk
+#    environment:
+#      NACOS_SERVERS: doc-nacos:8848
+#    volumes:
+#      - ./doc-modules/doc-job/target/doc-job.jar:/app/doc-job.jar
+#      - ./conf/spring:/app/config
+#    command:
+#      [
+#        "java",
+#        "-jar",
+#        "/app/doc-job.jar"
+#      ]
+#    ports:
+#      - "9202:9202"
+#    depends_on:
+#      - doc-mysql
+
+  doc-system:
+    container_name: doc-system
+    image: openjdk:17-jdk
+    environment:
+      NACOS_SERVERS: doc-nacos:8848
+    volumes:
+      - ./doc-modules/doc-system/target/doc-system.jar:/app/doc-system.jar
+      - ./conf/spring:/app/config
+    command:
+      [
+        "java",
+        "-jar",
+        "/app/doc-system.jar"
+      ]
+    ports:
+      - "9204:9204"
+    depends_on:
+      - doc-nacos
+      - doc-mysql
+      - doc-redis
+
+#  doc-websocket:
+#    container_name: doc-websocket
+#    image: openjdk:17-jdk
+#    environment:
+#      NACOS_SERVERS: doc-nacos:8848
+#    volumes:
+#      - ./doc-modules/doc-websocket/target/doc-websocket.jar:/app/doc-websocket.jar
+#      - ./conf/spring:/app/config
+#    command:
+#      [
+#        "java",
+#        "-jar",
+#        "/app/doc-websocket.jar"
+#      ]
+#    ports:
+#      - "9209:9209"
+#    depends_on:
+#      - doc-nacos
+#      - doc-redis
+#      - doc-mysql
