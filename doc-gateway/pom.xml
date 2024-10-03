@@ -41,7 +41,7 @@
         <!-- SpringCloud Alibaba Nacos Config -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-com.doc.file.config</artifactId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
         <!-- SpringCloud Alibaba Sentinel -->
