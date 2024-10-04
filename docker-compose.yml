@@ -58,6 +58,7 @@ services:
   doc-gateway:
     container_name: doc-gateway
     image: openjdk:17-jdk
+    restart: always
     environment:
       NACOS_SERVERS: doc-nacos:8848
     ports:
@@ -72,11 +73,13 @@ services:
         "/app/doc-gateway.jar"
       ]
     depends_on:
+      - doc-nacos
       - doc-redis
 
   doc-auth:
     container_name: doc-auth
     image: openjdk:17-jdk
+    restart: always
     environment:
       NACOS_SERVERS: doc-nacos:8848
     ports:
@@ -97,6 +100,7 @@ services:
   doc-file:
     container_name: doc-file
     image: openjdk:17-jdk
+    restart: always
     environment:
       NACOS_SERVERS: doc-nacos:8848
     volumes:
@@ -117,6 +121,7 @@ services:
 #  doc-job:
 #    container_name: doc-job
 #    image: openjdk:17-jdk
+#    restart: always
 #    environment:
 #      NACOS_SERVERS: doc-nacos:8848
 #    volumes:
@@ -136,6 +141,7 @@ services:
   doc-system:
     container_name: doc-system
     image: openjdk:17-jdk
+    restart: always
     environment:
       NACOS_SERVERS: doc-nacos:8848
     volumes:
@@ -157,6 +163,7 @@ services:
 #  doc-websocket:
 #    container_name: doc-websocket
 #    image: openjdk:17-jdk
+#    restart: always
 #    environment:
 #      NACOS_SERVERS: doc-nacos:8848
 #    volumes:
