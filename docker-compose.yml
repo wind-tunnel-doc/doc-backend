@@ -28,17 +28,24 @@ services:
     container_name: doc-nacos
     image: nacos/nacos-server:v2.2.0
     restart: always
+    # 各个模块服务注册地址
+    hostname: doc-nacos
+    privileged: true
     environment:
+      # 时区配置
       TZ: Asia/Shanghai
+      # 支持主机名可以使用hostname,否则使用ip，默认ip
+      PREFER_HOST_MODE: hostname
+      # 单机模式
       MODE: standalone
+      # 数据源平台 支持mysql或不保存empty
       SPRING_DATASOURCE_PLATFORM: mysql
+      # mysql配置，必须是mysql所在主机IP
       MYSQL_SERVICE_HOST: doc-mysql
       MYSQL_SERVICE_PORT: 3306
       MYSQL_SERVICE_USER: root
       MYSQL_SERVICE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_SERVICE_DB_NAME: doc_nacos_config
-      MYSQL_SERVICE_DB_PARAM: characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
-      NACOS_AUTH_TOKEN: SecretKey012345678901234567890123456789012345678901234567890123456789
     ports:
       - "8848:8848"
       - "9848:9848"
@@ -60,7 +67,9 @@ services:
     image: openjdk:17-jdk
     restart: always
     environment:
-      NACOS_SERVERS: doc-nacos:8848
+      NACOS_SERVERS: doc-nacos
+      # nacos地址
+      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: doc-nacos:8848
     ports:
       - "9000:9000"
     volumes:
@@ -81,7 +90,9 @@ services:
     image: openjdk:17-jdk
     restart: always
     environment:
-      NACOS_SERVERS: doc-nacos:8848
+      NACOS_SERVERS: doc-nacos
+      # nacos地址
+      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: doc-nacos:8848
     ports:
       - "9200:9200"
     volumes:
@@ -102,7 +113,9 @@ services:
     image: openjdk:17-jdk
     restart: always
     environment:
-      NACOS_SERVERS: doc-nacos:8848
+      NACOS_SERVERS: doc-nacos
+      # nacos地址
+      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: doc-nacos:8848
     volumes:
       - ./doc-modules/doc-file/target/doc-file.jar:/app/doc-file.jar
       - ./.uploadPath:/app/uploadPath
@@ -123,7 +136,9 @@ services:
 #    image: openjdk:17-jdk
 #    restart: always
 #    environment:
-#      NACOS_SERVERS: doc-nacos:8848
+#      NACOS_SERVERS: doc-nacos
+#      # nacos地址
+#      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: doc-nacos:8848
 #    volumes:
 #      - ./doc-modules/doc-job/target/doc-job.jar:/app/doc-job.jar
 #      - ./conf/spring:/app/config
@@ -143,7 +158,9 @@ services:
     image: openjdk:17-jdk
     restart: always
     environment:
-      NACOS_SERVERS: doc-nacos:8848
+      NACOS_SERVERS: doc-nacos
+      # nacos地址
+      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: doc-nacos:8848
     volumes:
       - ./doc-modules/doc-system/target/doc-system.jar:/app/doc-system.jar
       - ./conf/spring:/app/config
@@ -165,7 +182,9 @@ services:
 #    image: openjdk:17-jdk
 #    restart: always
 #    environment:
-#      NACOS_SERVERS: doc-nacos:8848
+#      NACOS_SERVERS: doc-nacos
+#      # nacos地址
+#      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: doc-nacos:8848
 #    volumes:
 #      - ./doc-modules/doc-websocket/target/doc-websocket.jar:/app/doc-websocket.jar
 #      - ./conf/spring:/app/config
