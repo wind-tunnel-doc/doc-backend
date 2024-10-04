@@ -48,6 +48,7 @@ services:
       MYSQL_SERVICE_USER: root
       MYSQL_SERVICE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_SERVICE_DB_NAME: doc_nacos_config
+      # 解决数据源问题
       MYSQL_SERVICE_DB_PARAM: characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
     ports:
       - "8848:8848"
@@ -90,10 +91,6 @@ services:
       - ./conf/spring:/app/config
     command:
       [
-        "sh",
-        "-c",
-        "sleep 60",
-        "&&",
         "java",
         "-jar",
         "/app/doc-gateway.jar"
@@ -119,10 +116,6 @@ services:
       - ./conf/spring:/app/config
     command:
       [
-        "sh",
-        "-c",
-        "sleep 60",
-        "&&",
         "java",
         "-jar",
         "/app/doc-auth.jar"
@@ -147,10 +140,6 @@ services:
       - ./conf/spring:/app/config
     command:
       [
-        "sh",
-        "-c",
-        "sleep 60",
-        "&&",
         "java",
         "-jar",
         "/app/doc-file.jar"
@@ -175,10 +164,6 @@ services:
 #      - ./conf/spring:/app/config
 #    command:
 #      [
-#        "sh",
-#        "-c",
-#        "sleep 60",
-#        "&&",
 #        "java",
 #        "-jar",
 #        "/app/doc-job.jar"
@@ -203,10 +188,6 @@ services:
       - ./conf/spring:/app/config
     command:
       [
-        "sh",
-        "-c",
-        "sleep 60",
-        "&&",
         "java",
         "-jar",
         "/app/doc-system.jar"
@@ -233,10 +214,6 @@ services:
 #      - ./conf/spring:/app/config
 #    command:
 #      [
-#        "sh",
-#        "-c",
-#        "sleep 60",
-#        "&&",
 #        "java",
 #        "-jar",
 #        "/app/doc-websocket.jar"
