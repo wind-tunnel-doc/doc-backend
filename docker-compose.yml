@@ -32,7 +32,7 @@ services:
       TZ: Asia/Shanghai
       MODE: standalone
       SPRING_DATASOURCE_PLATFORM: mysql
-      MYSQL_SERVICE_HOST: db
+      MYSQL_SERVICE_HOST: doc-mysql
       MYSQL_SERVICE_PORT: 3306
       MYSQL_SERVICE_USER: root
       MYSQL_SERVICE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -174,3 +174,8 @@ services:
 #      - doc-nacos
 #      - doc-redis
 #      - doc-mysql
+
+
+networks:
+  doc:
+    driver: bridge
