@@ -77,6 +77,10 @@ services:
       - ./conf/spring:/app/config
     command:
       [
+        "sh",
+        "-c",
+        "sleep 7",
+        "&&",
         "java",
         "-jar",
         "/app/doc-gateway.jar"
@@ -100,6 +104,10 @@ services:
       - ./conf/spring:/app/config
     command:
       [
+        "sh",
+        "-c",
+        "sleep 7",
+        "&&",
         "java",
         "-jar",
         "/app/doc-auth.jar"
@@ -122,6 +130,10 @@ services:
       - ./conf/spring:/app/config
     command:
       [
+        "sh",
+        "-c",
+        "sleep 7",
+        "&&",
         "java",
         "-jar",
         "/app/doc-file.jar"
@@ -144,6 +156,10 @@ services:
 #      - ./conf/spring:/app/config
 #    command:
 #      [
+#        "sh",
+#        "-c",
+#        "sleep 7",
+#        "&&",
 #        "java",
 #        "-jar",
 #        "/app/doc-job.jar"
@@ -166,6 +182,10 @@ services:
       - ./conf/spring:/app/config
     command:
       [
+        "sh",
+        "-c",
+        "sleep 7",
+        "&&",
         "java",
         "-jar",
         "/app/doc-system.jar"
@@ -190,6 +210,10 @@ services:
 #      - ./conf/spring:/app/config
 #    command:
 #      [
+#        "sh",
+#        "-c",
+#        "sleep 7",
+#        "&&",
 #        "java",
 #        "-jar",
 #        "/app/doc-websocket.jar"
