@@ -83,7 +83,6 @@ services:
       - "9000:9000"
     volumes:
       - ./doc-gateway/target/doc-gateway.jar:/app/doc-gateway.jar
-      - ./conf/spring:/app/config
     command:
       [
         "sh",
