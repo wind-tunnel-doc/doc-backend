@@ -52,6 +52,12 @@ services:
       - "9849:9849"
     volumes:
       - ./logs/nacos:/home/nacos/logs
+    command:
+      [
+        "sh",
+        "-c",
+        "sleep 20 && sh /home/nacos/bin/startup.sh"
+      ]
     depends_on:
       - doc-mysql
 
@@ -79,7 +85,7 @@ services:
       [
         "sh",
         "-c",
-        "sleep 7",
+        "sleep 30",
         "&&",
         "java",
         "-jar",
@@ -106,7 +112,7 @@ services:
       [
         "sh",
         "-c",
-        "sleep 7",
+        "sleep 30",
         "&&",
         "java",
         "-jar",
@@ -132,7 +138,7 @@ services:
       [
         "sh",
         "-c",
-        "sleep 7",
+        "sleep 30",
         "&&",
         "java",
         "-jar",
@@ -158,7 +164,7 @@ services:
 #      [
 #        "sh",
 #        "-c",
-#        "sleep 7",
+#        "sleep 30",
 #        "&&",
 #        "java",
 #        "-jar",
@@ -184,7 +190,7 @@ services:
       [
         "sh",
         "-c",
-        "sleep 7",
+        "sleep 30",
         "&&",
         "java",
         "-jar",
@@ -212,7 +218,7 @@ services:
 #      [
 #        "sh",
 #        "-c",
-#        "sleep 7",
+#        "sleep 30",
 #        "&&",
 #        "java",
 #        "-jar",
