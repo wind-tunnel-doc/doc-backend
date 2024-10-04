@@ -86,13 +86,10 @@ services:
       - ./conf/spring:/app/config
     command:
       [
-        "java",
-        "-jar",
-        "/app/doc-gateway.jar"
+        "sh",
+        "-c",
+        "until curl -s http://doc-nacos:8848/nacos/v1/auth/users; do echo 'Waiting for Nacos...'; sleep 5; done; java -jar /app/doc-gateway.jar"
       ]
-    depends_on:
-      doc-nacos:
-        condition: service_healthy
     networks:
       - doc
 
@@ -110,13 +107,10 @@ services:
       - ./conf/spring:/app/config
     command:
       [
-        "java",
-        "-jar",
-        "/app/doc-auth.jar"
+        "sh",
+        "-c",
+        "until curl -s http://doc-nacos:8848/nacos/v1/auth/users; do echo 'Waiting for Nacos...'; sleep 5; done; java -jar /app/doc-auth.jar"
       ]
-    depends_on:
-      doc-nacos:
-        condition: service_healthy
     networks:
       - doc
 
@@ -133,15 +127,12 @@ services:
       - ./conf/spring:/app/config
     command:
       [
-        "java",
-        "-jar",
-        "/app/doc-file.jar"
+        "sh",
+        "-c",
+        "until curl -s http://doc-nacos:8848/nacos/v1/auth/users; do echo 'Waiting for Nacos...'; sleep 5; done; java -jar /app/doc-file.jar"
       ]
     ports:
       - "9201:9201"
-    depends_on:
-      doc-nacos:
-        condition: service_healthy
     networks:
       - doc
 
@@ -157,15 +148,12 @@ services:
       - ./conf/spring:/app/config
     command:
       [
-        "java",
-        "-jar",
-        "/app/doc-system.jar"
+        "sh",
+        "-c",
+        "until curl -s http://doc-nacos:8848/nacos/v1/auth/users; do echo 'Waiting for Nacos...'; sleep 5; done; java -jar /app/doc-system.jar"
       ]
     ports:
       - "9204:9204"
-    depends_on:
-      doc-nacos:
-        condition: service_healthy
     networks:
       - doc
 
