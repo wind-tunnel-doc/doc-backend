@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'  # 使用 3.7 以支持健康检查
 services:
   doc-mysql:
     container_name: doc-mysql
@@ -30,25 +30,18 @@ services:
     container_name: doc-nacos
     image: nacos/nacos-server:v2.2.0
     restart: always
-    # 各个模块服务注册地址
     hostname: doc-nacos
     privileged: true
     environment:
-      # 时区配置
       TZ: Asia/Shanghai
-      # 支持主机名可以使用hostname,否则使用ip，默认ip
       PREFER_HOST_MODE: hostname
-      # 单机模式
       MODE: standalone
-      # 数据源平台 支持mysql或不保存empty
       SPRING_DATASOURCE_PLATFORM: mysql
-      # mysql配置，必须是mysql所在主机IP
       MYSQL_SERVICE_HOST: doc-mysql
       MYSQL_SERVICE_PORT: 3306
       MYSQL_SERVICE_USER: root
       MYSQL_SERVICE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_SERVICE_DB_NAME: doc_nacos_config
-      # 解决数据源问题
       MYSQL_SERVICE_DB_PARAM: characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
     ports:
       - "8848:8848"
@@ -60,12 +53,15 @@ services:
       [
         "sh",
         "-c",
-        "sleep 60 && sh /home/nacos/bin/startup.sh"
+        "until nc -z doc-mysql 3306; do echo 'Waiting for MySQL...'; sleep 5; done; sh /home/nacos/bin/startup.sh"
       ]
-    depends_on:
-      - doc-mysql
     networks:
       - doc
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8848/nacos/v1/auth/users"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   doc-redis:
     container_name: doc-redis
@@ -82,7 +78,6 @@ services:
     restart: always
     environment:
       NACOS_SERVERS: doc-nacos
-      # nacos地址
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: doc-nacos:8848
     ports:
       - "9000:9000"
@@ -96,8 +91,8 @@ services:
         "/app/doc-gateway.jar"
       ]
     depends_on:
-      - doc-nacos
-      - doc-redis
+      doc-nacos:
+        condition: service_healthy
     networks:
       - doc
 
@@ -107,7 +102,6 @@ services:
     restart: always
     environment:
       NACOS_SERVERS: doc-nacos
-      # nacos地址
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: doc-nacos:8848
     ports:
       - "9200:9200"
@@ -121,8 +115,8 @@ services:
         "/app/doc-auth.jar"
       ]
     depends_on:
-      - doc-nacos
-      - doc-redis
+      doc-nacos:
+        condition: service_healthy
     networks:
       - doc
 
@@ -132,7 +126,6 @@ services:
     restart: always
     environment:
       NACOS_SERVERS: doc-nacos
-      # nacos地址
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: doc-nacos:8848
     volumes:
       - ./doc-modules/doc-file/target/doc-file.jar:/app/doc-file.jar
@@ -147,33 +140,10 @@ services:
     ports:
       - "9201:9201"
     depends_on:
-      - doc-nacos
+      doc-nacos:
+        condition: service_healthy
     networks:
       - doc
-
-#  doc-job:
-#    container_name: doc-job
-#    image: openjdk:17-jdk
-#    restart: always
-#    environment:
-#      NACOS_SERVERS: doc-nacos
-#      # nacos地址
-#      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: doc-nacos:8848
-#    volumes:
-#      - ./doc-modules/doc-job/target/doc-job.jar:/app/doc-job.jar
-#      - ./conf/spring:/app/config
-#    command:
-#      [
-#        "java",
-#        "-jar",
-#        "/app/doc-job.jar"
-#      ]
-#    ports:
-#      - "9202:9202"
-#    depends_on:
-#      - doc-mysql
-#    networks:
-#      - doc
 
   doc-system:
     container_name: doc-system
@@ -181,7 +151,6 @@ services:
     restart: always
     environment:
       NACOS_SERVERS: doc-nacos
-      # nacos地址
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: doc-nacos:8848
     volumes:
       - ./doc-modules/doc-system/target/doc-system.jar:/app/doc-system.jar
@@ -195,37 +164,10 @@ services:
     ports:
       - "9204:9204"
     depends_on:
-      - doc-nacos
-      - doc-mysql
-      - doc-redis
+      doc-nacos:
+        condition: service_healthy
     networks:
       - doc
-
-#  doc-websocket:
-#    container_name: doc-websocket
-#    image: openjdk:17-jdk
-#    restart: always
-#    environment:
-#      NACOS_SERVERS: doc-nacos
-#      # nacos地址
-#      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: doc-nacos:8848
-#    volumes:
-#      - ./doc-modules/doc-websocket/target/doc-websocket.jar:/app/doc-websocket.jar
-#      - ./conf/spring:/app/config
-#    command:
-#      [
-#        "java",
-#        "-jar",
-#        "/app/doc-websocket.jar"
-#      ]
-#    ports:
-#      - "9209:9209"
-#    depends_on:
-#      - doc-nacos
-#      - doc-redis
-#      - doc-mysql
-#    networks:
-#      - doc
 
 networks:
   doc:
