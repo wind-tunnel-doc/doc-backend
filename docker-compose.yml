@@ -58,7 +58,7 @@ services:
       [
         "sh",
         "-c",
-        "sleep 40 && sh /home/nacos/bin/startup.sh"
+        "sleep 60 && sh /home/nacos/bin/startup.sh"
       ]
     depends_on:
       - doc-mysql
