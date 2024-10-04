@@ -23,6 +23,8 @@ services:
       ]
     ports:
       - "3306:3306"
+    networks:
+      - doc
 
   doc-nacos:
     container_name: doc-nacos
@@ -56,10 +58,12 @@ services:
       [
         "sh",
         "-c",
-        "sleep 20 && sh /home/nacos/bin/startup.sh"
+        "sleep 40 && sh /home/nacos/bin/startup.sh"
       ]
     depends_on:
       - doc-mysql
+    networks:
+      - doc
 
   doc-redis:
     container_name: doc-redis
@@ -67,6 +71,8 @@ services:
     restart: always
     ports:
       - "6379:6379"
+    networks:
+      - doc
 
   doc-gateway:
     container_name: doc-gateway
@@ -85,7 +91,7 @@ services:
       [
         "sh",
         "-c",
-        "sleep 30",
+        "sleep 60",
         "&&",
         "java",
         "-jar",
@@ -94,6 +100,8 @@ services:
     depends_on:
       - doc-nacos
       - doc-redis
+    networks:
+      - doc
 
   doc-auth:
     container_name: doc-auth
@@ -112,7 +120,7 @@ services:
       [
         "sh",
         "-c",
-        "sleep 30",
+        "sleep 60",
         "&&",
         "java",
         "-jar",
@@ -121,6 +129,8 @@ services:
     depends_on:
       - doc-nacos
       - doc-redis
+    networks:
+      - doc
 
   doc-file:
     container_name: doc-file
@@ -138,7 +148,7 @@ services:
       [
         "sh",
         "-c",
-        "sleep 30",
+        "sleep 60",
         "&&",
         "java",
         "-jar",
@@ -148,6 +158,8 @@ services:
       - "9201:9201"
     depends_on:
       - doc-nacos
+    networks:
+      - doc
 
 #  doc-job:
 #    container_name: doc-job
@@ -164,7 +176,7 @@ services:
 #      [
 #        "sh",
 #        "-c",
-#        "sleep 30",
+#        "sleep 60",
 #        "&&",
 #        "java",
 #        "-jar",
@@ -174,6 +186,8 @@ services:
 #      - "9202:9202"
 #    depends_on:
 #      - doc-mysql
+#    networks:
+#      - doc
 
   doc-system:
     container_name: doc-system
@@ -190,7 +204,7 @@ services:
       [
         "sh",
         "-c",
-        "sleep 30",
+        "sleep 60",
         "&&",
         "java",
         "-jar",
@@ -202,6 +216,8 @@ services:
       - doc-nacos
       - doc-mysql
       - doc-redis
+    networks:
+      - doc
 
 #  doc-websocket:
 #    container_name: doc-websocket
@@ -218,7 +234,7 @@ services:
 #      [
 #        "sh",
 #        "-c",
-#        "sleep 30",
+#        "sleep 60",
 #        "&&",
 #        "java",
 #        "-jar",
@@ -230,6 +246,8 @@ services:
 #      - doc-nacos
 #      - doc-redis
 #      - doc-mysql
+#    networks:
+#      - doc
 
 networks:
   doc:
