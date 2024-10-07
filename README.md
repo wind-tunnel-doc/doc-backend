@@ -24,21 +24,24 @@ com.doc
 ├──pom.xml                // 公共依赖
 ~~~
 
-#### 环境配置
+## 环境配置
 
 1.  jdk = 17
 2.  redis >= 3.2.100
 3.  nacos >= 2.2.0
 4.  mysql >= 8.0.33
 
-#### 使用说明
+## 使用说明
 
 1.  mysql导入源码中的sql目录下的所有sql文件（sql名即为数据库名，自行创建数据库）
 
-2.  修改nacos配置文件(nacos-server-2.2.0\nacos\conf\application.properties)中的mysql配置（注意数据库名必须为doc_nacos_config、端口、用户名和密码）
-    db.url.0=jdbc:mysql://localhost:3306/docnacos_config?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+2.  修改nacos配置文件(nacos-server-2.2.0\nacos\conf\application.properties)中的mysql配置
+   注意: 数据库名必须为doc_nacos_config、端口、用户名和密码）
+    ~~~
+    db.url.0=jdbc:mysql://localhost:3306/doc_nacos_config?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
     db.user.0=root（用户名可自行修改）
     db.password.0=password（密码可自行修改）
+    ~~~
 3.  nacos运行：找到目录（nacos-server-2.2.0\nacos\bin），在cmd窗口下输入命令（startup.cmd -m standalone）即可
 4.  redis运行：找到目录（Redis-x64-3.2.100），点击redis-server.exe运行即可
 5.  运行redis和nacos后，再运行所有的 DocxxxApplication 项目即可
