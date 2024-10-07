@@ -1,9 +1,10 @@
 # doc-backend
 
-#### 介绍
+## 介绍
 风洞文档后端
 
-#### 软件架构
+## 软件架构
+~~~
 com.doc    
 ├── doc-gateway         // 网关模块 [9000]
 ├── doc-auth            // 认证中心 [9200]
@@ -11,22 +12,17 @@ com.doc
 │       └── doc-api-system                          // 系统接口
 ├── doc-common          // 通用模块
 │       └── doc-common-core                         // 核心模块
-│       └── doc-common-datascope                    // 权限范围
 │       └── doc-common-datasource                   // 多数据源
-│       └── doc-common-elasticsearch                // 搜索引擎（待完善）
 │       └── doc-common-log                          // 日志记录
-│       └── doc-common-rabbitmq                     // 消息队列
-│       └── doc-common-redis                        // 缓存服务(添加分布式锁)
-│       └── doc-common-seata                        // 分布式事务
+│       └── doc-common-redis                        // 缓存服务
 │       └── doc-common-security                     // 安全模块
-│       └── doc-common-swagger                      // 系统接口（添加knife4j）
+│       └── doc-common-swagger                      // 系统接口
 ├── doc-modules         // 业务模块
 │       └── doc-file                                // 文件服务 [9201]
 │       └── doc-system                              // 系统模块 [9204]
 │       └── doc-websocket                           // Websocket服务 [9209]
 ├──pom.xml                // 公共依赖
-
-
+~~~
 
 #### 环境配置
 
